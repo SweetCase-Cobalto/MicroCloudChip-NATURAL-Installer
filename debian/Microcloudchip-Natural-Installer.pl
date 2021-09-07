@@ -1,6 +1,11 @@
+#!/usr/bin/perl
+use experimental qw(switch);
+
 # Setting Variables
 my $PACKAGE_DIRNAME = '.microcloudchip';
-my $WORKIND_DIRNAME = 'microcloudchip';
+my $WORKING_DIRNAME = 'microcloudchip';
+
+my @DEPENDENCY_PACKAGES = ['git', 'python3-dev', 'libmysqlclient-dev', 'gcc'];
 
 # Err Msg
 my $CONFIG_ERR_PREFIX = "[Config Err]: ";
@@ -81,18 +86,130 @@ sub checkingConfigData {
     }
     return 1;
 }
+sub makeWorkingDirectory {
+    # 프로그램이 정상적으로 돌아갈 디렉토리를 생성한다
+    my $homeRoot = $ENV{'HOME'};
+
+    my $realPackageRoot = $homeRoot . '/' . $PACKAGE_DIRNAME;
+    my $realWorkingRoot = $homeRoot . '/' . $WORKING_DIRNAME;
+
+    # 디렉토리 생성
+    unless( -d $realPackageRoot ) {
+        system "mkdir $realPackageRoot";
+    } else {
+        # 디렉토리 비우기
+        system "rm -rf $realPackageRoot";
+        system "mkdir $realPackageRoot";
+    }
+    unless( -d $realWorkingRoot ) {
+        system "mkdir $realWorkingRoot";
+    } else {
+        system "rm -rf $realWorkingRoot";
+        system "mkdir $realWorkingRoot";
+    }
+
+    my %roots = (
+        'workingRoot' => $realWorkingRoot,
+        'packageRoot' => $realPackageRoots
+    );
+    return %roots;
+}
+sub makeStorageRoot {
+    my $storageParentRoot = shift;
+    my $storageRoot = $storageParentRoot . '/' . $WORKING_DIRNAME;
+
+    # 이미 있는 경우 포맷한 다음 다시 생성
+    if( -e $storageRoot ) {
+        system "rm -rf $storageRoot";
+    }
+    system "mkdir $storageRoot";
+
+    # 하위 디렉토리 생성
+    my $staticFilesRoot = $storageRoot . '/web';
+    my $userStorageRoot = $storageRoot . '/storage';
+
+    system "mkdir $staticFilesRoot";
+    system "mkdir $userStorageRoot";
 
 
-sub main {
+    my %storageRoots = (
+        'storageRoot' => $storageRoot,
+        'staticFilesRoot' => $staticFilesRoot,
+        'userStorageRoot' => $userStorageRoot
+    );
+    return %storageRoots;
+}
 
+sub installDependencyPackage {
+    
+}
+
+sub installApp {
+    # installer
+    
     # Main Process
     my %config = getConfigData();
-
     unless(checkingConfigData(%config) == 1) {
         # 통과 못함
         return;
     }
-    
+    # make working directory
+    my %workingRoots = makeWorkingDirectory();
+
+    # make storage directory
+    my %storageRoots = makeStorageRoot($config{'storage-root'});
+
+    # install dependency
+    installDependencyPackage();
+}
+
+sub removeDependencyPackage {
+    print $OSNAME;
+}
+
+sub formatApp {
+    # formatter
+
+    # get data
+    my %config = getConfigData();
+    unless(checkingConfigData(%config) == 1) {
+        return;
+    }
+
+    my $homeRoot = $ENV{"HOME"};
+
+    # working directory remove
+    my $realPackageRoot = $homeRoot . '/' . $PACKAGE_DIRNAME;
+    my $realWorkingRoot = $homeRoot . '/' . $WORKING_DIRNAME;
+
+    if( -e $realPackageRoot ) {
+        system "rm -rf $realPackageRoot";
+    }
+    if( -e $realWorkingRoot ) {
+        system "rm -rf $realWorkingRoot";
+    }
+
+    # remove storage root
+    my $storageRoot = $config{'storage-root'} . '/' . $WORKING_DIRNAME;
+    if( -e $storageRoot ) {
+        system "rm -rf $storageRoot";
+    }
+}
+
+sub main {
+    # main process
+    my $cmd = $ARGV[0];
+
+    given($cmd) {
+        when ('install') {
+            installApp();
+        } when ('format') {
+            formatApp();
+        } default {
+            print "install: install application\n";
+            print "format: remove application\n";
+        }
+    }
 }
 
 main();
