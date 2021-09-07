@@ -1,11 +1,21 @@
 #!/usr/bin/perl
 use experimental qw(switch);
 
+
+# APP Version
+# v0.0.1
+
 # Setting Variables
 my $PACKAGE_DIRNAME = '.microcloudchip';
 my $WORKING_DIRNAME = 'microcloudchip';
 
-my @DEPENDENCY_PACKAGES = ['git', 'python3-dev', 'libmysqlclient-dev', 'gcc'];
+# 타겟 사용자가 개발자일 경우를 대비해 GCC 은 따로 설치한다.
+my @DEPENDENCY_PACKAGES = ('python3-dev', 'libmysqlclient-dev');
+
+# GITHUB REPOSITORY
+my $SOURCECODE_URL = 'https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL/archive/refs/tags/v0.0.1.tar.gz';
+my $SOURCECODE_ZIPFILE_NAME = 'v0.0.1.tar.gz';
+my $SOURCECOEE_FULL_DIRNAME = 'MicroCloudChip-NATURAL-0.0.1';
 
 # Err Msg
 my $CONFIG_ERR_PREFIX = "[Config Err]: ";
@@ -37,6 +47,8 @@ sub getConfigData {
 
     return %configData;
 }
+
+# Install Subroutines
 sub checkingConfigData {
     # config data 검토
     # 통과 시 True, 실패 시 False
@@ -141,9 +153,33 @@ sub makeStorageRoot {
 }
 
 sub installDependencyPackage {
-    
+    foreach my $package (@DEPENDENCY_PACKAGES) {
+        system "sudo apt install -y $package";
+    }
 }
 
+sub downloadSourceCodeToTargetDirectory {
+    my $targetDirectory = shift;
+
+    # Download From Server
+    system "sudo wget $SOURCECODE_URL -P $targetDirectory";
+
+    # unzip
+    my $fullRootOfSourcecodeZipfileRoot = $targetDirectory . '/' . $SOURCECODE_ZIPFILE_NAME;
+    system "sudo tar -xzvf $fullRootOfSourcecodeZipfileRoot -C $targetDirectory";
+
+    # move To outer directory
+    my $fullRootAfterUnzipSourceCodeZipDir = $targetDirectory . '/' . $SOURCECOEE_FULL_DIRNAME;
+    my $fullRootAfterUnzipSourceCodeZipDirForRemove  = $fullRootAfterUnzipSourceCodeZipDir . "/*";
+    system "sudo mv $fullRootAfterUnzipSourceCodeZipDirForRemove $targetDirectory";
+
+    # remove empty unziped file and zip file
+    system "sudo rmdir $fullRootAfterUnzipSourceCodeZipDir";
+    system "sudo rm $fullRootOfSourcecodeZipfileRoot";
+}
+
+
+# Install Main Routine
 sub installApp {
     # installer
     
@@ -161,10 +197,17 @@ sub installApp {
 
     # install dependency
     installDependencyPackage();
+
+    # Download and unzip sourcecode
+    downloadSourceCodeToTargetDirectory($workingRoots{'workingRoot'});
 }
 
+# Remove Subroutines
 sub removeDependencyPackage {
-    print $OSNAME;
+    foreach my $package (@DEPENDENCY_PACKAGES) {
+        system "sudo apt purge -y $package";
+    }
+    system "sudo apt autoremove -y";
 }
 
 sub formatApp {
@@ -193,7 +236,9 @@ sub formatApp {
     my $storageRoot = $config{'storage-root'} . '/' . $WORKING_DIRNAME;
     if( -e $storageRoot ) {
         system "rm -rf $storageRoot";
+        
     }
+    removeDependencyPackage();
 }
 
 sub main {
