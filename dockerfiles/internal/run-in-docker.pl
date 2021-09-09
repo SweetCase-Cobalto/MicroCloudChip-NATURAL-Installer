@@ -7,15 +7,16 @@
 	idx-4: storage root
 =cut
 
-my $projectRoot = $ARGV[0];
-my $serverPort = $ARGV[1];
-my $adminEmail = $ARGV[2];
-my $serverHost = $ARGV[3];
-my $storageRoot = $ARGV[4];
+my $projectRoot = shift;
+my $serverPort = shift;
+my $adminEmail = shift;
+my $serverHost = shift;
+my $storageRoot = shift;
 
 
 print "start\n";
-print @ARGV . '\n';
+print $serverPort;
+print $storageRoot;
 
 chdir $projectRoot;
 
