@@ -46,4 +46,4 @@ RUN git clone https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Instal
 
 WORKDIR /packages/MicroCloudChip-NATURAL-Installer/dockerfiles/internal
 
-CMD ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.1 $SERVER_PORT $ADMIN_EMAIL $HOST $STORAGE_ROOT"]
+ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.1 $SERVER_PORT $ADMIN_EMAIL $HOST $STORAGE_ROOT"]

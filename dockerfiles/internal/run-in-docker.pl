@@ -15,7 +15,7 @@ my $storageRoot = $ARGV[4];
 
 
 print "start\n";
-print $storageRoot . '\n';
+print @ARGV . '\n';
 
 chdir $projectRoot;
 
