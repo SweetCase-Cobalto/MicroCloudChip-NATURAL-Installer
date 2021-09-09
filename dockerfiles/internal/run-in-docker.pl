@@ -17,6 +17,7 @@ chdir $projectRoot;
 
 # if first (not installed)
 unless( -e "app/server/server/config.json" ) {
+
 	# if storage root is not exist (default root)
 	if( $storageRoot == "" ) {
 		$storageRoot = "/storage";
@@ -32,9 +33,8 @@ unless( -e "app/server/server/config.json" ) {
 	system "perl setConfigure-sqlite.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail}";
 
 	# build
-	system "echo ${projectRoot}";
 	chdir "${projectRoot}/web";
-	system "npm run build";
+	system "npm run builds";
 
 	# move to templates
 	mkdir "${projectRoot}/app/server/templates";
