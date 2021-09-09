@@ -40,6 +40,10 @@ WORKDIR /app/MicroCloudChip-NATURAL-0.0.1
 WORKDIR /app/MicroCloudChip-NATURAL-0.0.1/app
 RUN pip install -r requirements.txt
 
+# install plugins
+WORKDIR /app/MicroCloudChip-NATURAL-0.0.1/web
+RUN npm i
+
 # download installer
 WORKDIR /packages
 RUN git clone https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git

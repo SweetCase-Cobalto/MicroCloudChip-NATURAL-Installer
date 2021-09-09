@@ -30,11 +30,6 @@ unless( -e "app/server/server/config.json" ) {
 	
 	# config setting
 	system "perl setConfigure-sqlite.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail}";
-	
-	# build temlate/static files
-	chdir "${projectRoot}/web";
-	system "npm i";
-	system "npm run build";
 
 	# move to templates
 	mkdir "${projectRoot}/app/server/templates";
@@ -50,4 +45,4 @@ unless( -e "app/server/server/config.json" ) {
 
 # run
 chdir "${storageRoot}/app/server";
-system "gunicorn --bind 0:${serverPort} server.wsgi.application";
+system "gunicorn --bind 0:${serverPort} server.wsgi:application";
