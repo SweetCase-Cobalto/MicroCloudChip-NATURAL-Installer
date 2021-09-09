@@ -34,15 +34,15 @@ unless( -e "app/server/server/config.json" ) {
 
 	# build
 	chdir "${projectRoot}/web";
+	system "npm i";
 	system "npm run build";
 
 	# move to templates
-	mkdir "${projectRoot}/app/server/templates";
-	chdir $projectRoot;
-	system "mv web/build/* app/server/templates/";	
+	chdir "${projectRoot}/app/server";
+	mkdir "templates";
+	system "mv ${projectRoot}/web/build/* ./templates/";	
 	
 	# python setting
-	chdir "app/server";
 	system "python manage.py collectstatic";
 	system "python manage.py makemigrations";
 	system "python manage.py migrate";
