@@ -32,13 +32,13 @@ unless( -e "app/server/server/config.json" ) {
 	system "perl setConfigure-sqlite.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail}";
 
 	# build
-	mkdir "${projectRoot}/web";
+	chdir "${projectRoot}/web";
 	system "npm run build";
 
 	# move to templates
 	mkdir "${projectRoot}/app/server/templates";
 	chdir $projectRoot;
-	system "mv web/build/* app/server/templates/";	
+	system "mv ./web/build/* ./app/server/templates/";	
 	
 	# python setting
 	chdir "app/server";
