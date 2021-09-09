@@ -38,7 +38,7 @@ unless( -e "app/server/server/config.json" ) {
 	# move to templates
 	mkdir "${projectRoot}/app/server/templates";
 	chdir $projectRoot;
-	system "mv ./web/build/* ./app/server/templates/";	
+	system "mv ${projectRoot}/web/build/* ${projectRoot}/app/server/templates/";	
 	
 	# python setting
 	chdir "app/server";
