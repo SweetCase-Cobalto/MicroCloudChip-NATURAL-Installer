@@ -13,18 +13,13 @@ my $adminEmail = shift;
 my $serverHost = shift;
 my $storageRoot = shift;
 
-
-print "start\n";
-print $serverPort;
-print $storageRoot;
-
 chdir $projectRoot;
 
 # if first (not installed)
 unless( -e "app/server/server/config.json" ) {
 
 	# if storage root is not exist (default root)
-	if( $storageRoot == "" ) {
+	if( $storageRoot eq "" ) {
 		$storageRoot = "/storage";
 	}
 
