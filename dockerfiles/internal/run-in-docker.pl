@@ -32,8 +32,8 @@ unless( -e "app/server/server/config.json" ) {
 	system "perl setConfigure-sqlite.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail}";
 
 	# build
+	system "echo ${projectRoot}";
 	chdir "${projectRoot}/web";
-	system "npm i";
 	system "npm run build";
 
 	# move to templates
