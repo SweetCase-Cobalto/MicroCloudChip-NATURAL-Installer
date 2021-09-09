@@ -34,7 +34,7 @@ unless( -e "app/server/server/config.json" ) {
 
 	# build
 	chdir "${projectRoot}/web";
-	system "npm run builds";
+	system "npm run build";
 
 	# move to templates
 	mkdir "${projectRoot}/app/server/templates";
