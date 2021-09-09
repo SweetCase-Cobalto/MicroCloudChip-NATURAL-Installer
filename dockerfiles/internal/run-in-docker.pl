@@ -13,6 +13,10 @@ my $adminEmail = $ARGV[2];
 my $serverHost = $ARGV[3];
 my $storageRoot = $ARGV[4];
 
+
+print "start\n";
+print $storageRoot . '\n';
+
 chdir $projectRoot;
 
 # if first (not installed)
