@@ -49,5 +49,5 @@ unless( -e "app/server/server/config.json" ) {
 }
 
 # run
-chdir "${storageRoot}/app/server";
+chdir "${projectRoot}/app/server";
 system "gunicorn --bind 0:${serverPort} server.wsgi:application";
