@@ -20,7 +20,7 @@ RUN apt install -y sudo gcc make
 RUN apt install -y python3-dev python3-pip
 RUN apt install -y libffi-dev
 RUN apt install -y build-essential
-RUN apt install -y mysqlclient-dev
+RUN apt install -y default-libmysqlclient-dev
 RUN apt install -y git
 
 # application run on this directory
@@ -54,5 +54,4 @@ RUN git clone https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Instal
 
 WORKDIR /packages/MicroCloudChip-NATURAL-Installer/dockerfiles/internal
 
-ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.1 $SERVER_PORT $ADMIN_EMAIL \
-			   $DB_NAME $DB_USER $DB_PSWD $DB_HOST $DB_PORT $STORAGE_ROOT"]
+ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.1 $SERVER_PORT $ADMIN_EMAIL $DB_NAME $DB_USER $DB_PSWD $DB_HOST $DB_PORT $STORAGE_ROOT"]
