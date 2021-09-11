@@ -38,6 +38,7 @@ unless( -e "app/server/server/config.json" ) {
 	chdir "${projectRoot}/bin";
 	
 	# config setting
+	print "perl setConfigure-mysql.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail} ${DBhost} ${DBport} ${DBuser} ${DBpswd} ${DBname}";
 	system "perl setConfigure-mysql.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail} ${DBhost} ${DBport} ${DBuser} ${DBpswd} ${DBname}";
 
 	# build
