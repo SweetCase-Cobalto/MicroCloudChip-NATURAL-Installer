@@ -42,7 +42,7 @@ RUN pip install -r requirements.txt
 
 # download installer
 WORKDIR /packages
-RUN git clone https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
+RUN git clone -b 0.0.2 --single-branch https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
 
 WORKDIR /packages/MicroCloudChip-NATURAL-Installer/dockerfiles/internal
 
