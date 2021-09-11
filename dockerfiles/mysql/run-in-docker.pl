@@ -23,7 +23,7 @@ my $storageRoot = shift;
 
 chdir $projectRoot;
 
-print "perl setConfigure-mysql.pl ${storageRoot}/microcloudchip ${serverPort} ${serverHost} ${adminEmail} ${DBhost} ${DBport} ${DBuser} ${DBpswd} ${DBname}";
+print `${DBport}\n`;
 # if first (not installed)
 unless( -e "app/server/server/config.json" ) {
 
