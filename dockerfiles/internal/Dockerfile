@@ -30,20 +30,20 @@ RUN apt-get install -y nodejs
 
 # download sourcecode
 WORKDIR /app
-RUN wget https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL/archive/refs/tags/v0.0.3.tar.gz
-RUN tar -zxvf v0.0.3.tar.gz
+RUN wget https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL/archive/refs/tags/v0.0.4.tar.gz
+RUN tar -zxvf v0.0.4.tar.gz
 
 # Setting
-WORKDIR /app/MicroCloudChip-NATURAL-0.0.3
+WORKDIR /app/MicroCloudChip-NATURAL-0.0.4
 
 # install python
-WORKDIR /app/MicroCloudChip-NATURAL-0.0.3/app
+WORKDIR /app/MicroCloudChip-NATURAL-0.0.4/app
 RUN pip install -r requirements.txt
 
 # download installer
 WORKDIR /packages
-RUN git clone -b 0.0.3 --single-branch https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
+RUN git clone -b 0.0.4 --single-branch https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
 
 WORKDIR /packages/MicroCloudChip-NATURAL-Installer/dockerfiles/internal
 
-ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.3 $SERVER_PORT $ADMIN_EMAIL $HOST $STORAGE_ROOT"]
+ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/MicroCloudChip-NATURAL-0.0.4 $SERVER_PORT $ADMIN_EMAIL $HOST $STORAGE_ROOT"]
