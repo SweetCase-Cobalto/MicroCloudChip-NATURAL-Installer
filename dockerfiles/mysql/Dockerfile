@@ -38,20 +38,20 @@ RUN apt-get install -y nodejs
 
 # download sourcecode
 WORKDIR /app
-RUN wget https://github.com/SweetCase-Cobalto/microcloudchip-natural/archive/refs/tags/v0.0.4.tar.gz
-RUN tar -zxvf v0.0.4.tar.gz
+RUN wget https://github.com/SweetCase-Cobalto/microcloudchip-natural/archive/refs/tags/v0.1.0.beta2.tar.gz
+RUN tar -zxvf v0.1.0.beta2.tar.gz
 
 # Setting
-WORKDIR /app/microcloudchip-natural-0.0.4
+WORKDIR /app/microcloudchip-natural-0.1.0.beta2
 
 # install python
-WORKDIR /app/microcloudchip-natural-0.0.4/app
+WORKDIR /app/microcloudchip-natural-0.1.0.beta2/app
 RUN pip install -r requirements.txt
 
 # download installer
 WORKDIR /packages
-RUN git clone -b 0.0.4 --single-branch https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
+RUN git clone -b 0.1.0.beta2 --single-branch https://github.com/SweetCase-Cobalto/MicroCloudChip-NATURAL-Installer.git
 
 WORKDIR /packages/MicroCloudChip-NATURAL-Installer/dockerfiles/mysql
 
-ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/microcloudchip-natural-0.0.4 $SERVER_PORT $ADMIN_EMAIL $HOST $DB_NAME $DB_USER $DB_PSWD $DB_HOST $DB_PORT $STORAGE_ROOT"]
+ENTRYPOINT ["sh", "-c", "perl run-in-docker.pl /app/microcloudchip-natural-0.1.0.beta2 $SERVER_PORT $ADMIN_EMAIL $HOST $DB_NAME $DB_USER $DB_PSWD $DB_HOST $DB_PORT $STORAGE_ROOT"]
